@@ -1,0 +1,82 @@
+{
+  "name": "colorpeekr",
+  "version": "0.1.0",
+  "private": true,
+  "main": "build/browser.js",
+  "scripts": {
+    "build": "webpack",
+    "build-production": "NODE_ENV=production npm run build",
+    "watch": "node ./scripts/watch.js",
+    "make": "electron-forge make",
+    "start": "electron-forge start",
+    "package": "electron-forge package"
+  },
+  "dependencies": {
+    "color-namer": "^1.3.0",
+    "electron-compile": "^6.4.2",
+    "lodash": "^4.17.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "robotjs": "^0.4.7"
+  },
+  "devDependencies": {
+    "@twist/core": "^0.1.0",
+    "@twist/eslint-plugin-core": "^0.1.2",
+    "@twist/react": "^0.1.0",
+    "@twist/react-webpack-plugin": "^0.1.1",
+    "autoprefixer": "^7.2.5",
+    "babel-eslint": "^8.0.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "css-loader": "^0.28.8",
+    "electron-forge": "^4.1.2",
+    "electron-prebuilt-compile": "1.8.2-beta.3",
+    "electron-squirrel-startup": "^1.0.0",
+    "eslint": "^4.15.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "less": "^3.0.0-alpha.3",
+    "less-loader": "^4.0.5",
+    "node-loader": "^0.6.0",
+    "postcss-loader": "^2.0.10",
+    "strip-ansi": "^4.0.0",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^2.9.3"
+  },
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "name": "ColorPeekr",
+        "icon": "./resources/colorpeekr"
+      },
+      "electronWinstallerConfig": {
+        "name": "ColorPeekr",
+        "authors": "theadriann",
+        "description": "An open-source color picker built with web technology"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": ""
+      }
+    }
+  }
+}
