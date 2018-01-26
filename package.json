@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "color-namer": "^1.3.0",
+    "electron-compile": "^6.4.2",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -55,10 +56,7 @@
       },
       "electronPackagerConfig": {
         "name": "ColorPeekr",
-        "icon": "./resources/colorpeekr",
-        "ignore": [
-          "src"
-        ]
+        "icon": "./resources/colorpeekr"
       },
       "electronWinstallerConfig": {
         "name": "ColorPeekr",
