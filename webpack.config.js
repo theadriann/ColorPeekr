@@ -97,7 +97,7 @@ module.exports = {
                 'main'
             ],
             inject:   false,
-            template: require.resolve('./public/index.ejs')
+            template: require.resolve('./src/index.ejs')
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),

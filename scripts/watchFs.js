@@ -7,14 +7,12 @@ const WebpackDevServer = require('webpack-dev-server')
 const webpackConfig    = require('../webpack.config.js')
 
 const baseDevServerConfig = {
-    host: '127.0.0.1',
-    port: 9000,
-
+    host:     '127.0.0.1',
+    port:     9000,
     compress: true,
     hot:      true,
     inline:   true,
-
-    stats: {
+    stats:    {
         assets:          true,
         cached:          false,
         cachedAssets:    false,
@@ -56,10 +54,10 @@ if (devServerConfig.hot) {
 
 // Initialize webpack and webpack-dev-server
 const compiler = webpack(_.merge(webpackConfig, { watch: true }))
-const compilerFS = compiler.outputFileSystem
-const devServer  = new WebpackDevServer(compiler, devServerConfig)
-
+const compilerFS  = compiler.outputFileSystem
+const devServer   = new WebpackDevServer(compiler, devServerConfig)
 const devServerFS = devServer.middleware.fileSystem
+
 for (const name in compilerFS) {
     if (typeof compilerFS[name] === 'function') {
         devServerFS[name] = compilerFS[name].bind(compilerFS)
