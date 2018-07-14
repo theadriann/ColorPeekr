@@ -1,3 +1,9 @@
+// React Deps
+import React from 'react'
+import { Attribute, Component, Computed, Observer } from 'app/decorators'
+
+// Utils
+import classNames from 'classnames'
 
 // Styles
 import SwatchViewLess from './SwatchView.less'
@@ -5,92 +11,123 @@ import SwatchViewLess from './SwatchView.less'
 // Views
 import ClipboardButton from './ClipboardButton'
 
-@Component({ fork: true })
-export default class SwatchView {
+@Observer
+@Component({ events: ['onLockChange', 'onPanelChange'] })
+export default class SwatchView extends React.Component {
+    @Attribute textColor
+    @Attribute colorName
 
-    @Attribute locked = false
-    @Attribute panelOpen = false
+    // ------------------------
+    // Shorthands
+    // ------------------------
 
-    constructor() {
-        super()
-
-        this.scope.defineObservable('hovered', null)
-    }
-
+    @Computed
     get store() {
         return this.scope.store
     }
 
-    toggleLocked() {
-        this.locked = !this.locked
+    // ------------------------
+    // Computed States
+    // ------------------------
+
+    @Computed
+    get panelOpen() {
+        return this.store.panelOpen
     }
 
-    togglePanel() {
-        this.panelOpen = !this.panelOpen
+    @Computed
+    get locked() {
+        return this.store.locked
     }
+
+    // ------------------------
+    // Computed Data
+    // ------------------------
+
+    @Computed
+    get backgroundColor() {
+        return this.store.tinyColor
+    }
+
+    // ------------------------
+    // Event Handling Methods
+    // ------------------------
+
+    onLockClick = () => {
+        this.store.locked = !this.locked
+    }
+
+    onPanelToggleClick = () => {
+        this.store.panelOpen = !this.panelOpen
+    }
+
+    // ------------------------
+    // Rendering Utils
+    // ------------------------
+
+    @Computed
+    get containerStyle() {
+        return {
+            color: this.store.textColor,
+            backgroundColor: this.backgroundColor
+        }
+    }
+
+    // ------------------------
+    // Rendering Methods
+    // ------------------------
 
     render() {
         return (
             <div
-                class={ SwatchViewLess.container }
-                style-backgroundColor={ this.store.tinyColor }
-                style-color={ this.store.textColor }
-                { ...this.undeclaredAttributes() }
+                style={this.containerStyle}
+                className={SwatchViewLess.container}
+                {...this.undeclaredAttributes()}
             >
-                { this.renderTopbar() }
-                <if condition={ this.panelOpen }>
-                    { this.renderContent() }
-                </if>
-                { this.renderBottombar() }
+                {this.renderTopbar()}
+                {this.renderContent()}
+                {this.renderBottombar()}
             </div>
         )
     }
 
     renderTopbar() {
+        const iconClasses = classNames('fa', {
+            'fa-lock': this.locked,
+            'fa-unlock': !this.locked
+        })
+
         return (
-            <div class="top-bar">
-                <div class="title">
-                    <i
-                        class="fa"
-                        class-fa-lock={ this.locked }
-                        class-fa-unlock={ !this.locked }
-                        aria-hidden="true"
-                        onClick={ () => this.toggleLocked() }
-                    />
-                    { this.store.colorName }
+            <div className="top-bar">
+                <div className="title">
+                    <i aria-hidden="true" className={iconClasses} onClick={this.onLockClick} />
+                    {this.store.colorName}
                 </div>
-                <ClipboardButton
-                    text={ `#${this.store.tinyColor.toHex()}` }
-                    namespace="hex"
-                />
+                <ClipboardButton text={`#${this.backgroundColor.toHex()}`} namespace="hex" />
             </div>
         )
     }
 
     renderContent() {
-        return (
-            <div class="content" />
-        )
+        if (!this.panelOpen) {
+            return null
+        }
+
+        return <div className="content" />
     }
 
     renderBottombar() {
+        const iconClasses = classNames('fa', {
+            'fa-chevron-down': !this.panelOpen,
+            'fa-chevron-up': this.panelOpen
+        })
+
         return (
-            <div class="bottom-bar">
-                <div
-                    class="panel-controller"
-                    onClick={ () => this.togglePanel() }
-                >
-                    <i
-                        class="fa"
-                        class-fa-chevron-down={ !this.panelOpen }
-                        class-fa-chevron-up={ this.panelOpen }
-                        aria-hidden="true"
-                    />
+            <div className="bottom-bar">
+                <div className="panel-controller" onClick={this.onPanelToggleClick}>
+                    <i className={iconClasses} aria-hidden="true" />
                 </div>
-                <ClipboardButton
-                    text={ this.store.tinyColor.toRgbString() }
-                    namespace="rgb"
-                />
+                <ClipboardButton text={this.backgroundColor.toRgbString()} namespace="rgb" />
             </div>
         )
     }

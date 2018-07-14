@@ -1,14 +1,10 @@
+const { remote } = __non_webpack_require__('electron')
+const { app, globalShortcut, BrowserWindow } = remote
 
-const {remote}                             = __non_webpack_require__('electron')
-const {app, globalShortcut, BrowserWindow} = remote
-
-@Store
 export default class GlobalShortcuts {
-
-    Shortcuts =[ {command: 'CommandOrControl+Alt+1',action:  'toggleLock'} ]
+    Shortcuts = [{ command: 'CommandOrControl+Alt+1', action: 'toggleLock' }]
 
     constructor(scope) {
-        super()
         this.scope = scope
 
         this.registerShortcuts()
@@ -20,28 +16,25 @@ export default class GlobalShortcuts {
         return remote.getCurrentWindow()
     }
 
-    action(actionName) {
+    action = actionName => {
         switch (actionName) {
-        case 'toggleLock':
-            this.scope.store.locked = !this.scope.store.locked
-            break
+            case 'toggleLock':
+                this.scope.store.locked = !this.scope.store.locked
+                break
         }
     }
 
-    @Bind
-    handleShortcut(shortcut, register = false) {
+    handleShortcut = (shortcut, register = false) => {
         if (register) {
             globalShortcut.register(shortcut.command, () => {
                 this.action(shortcut.action)
             })
-        }
-        else {
+        } else {
             globalShortcut.unregister(shortcut.command)
         }
     }
 
-    @Bind
-    registerShortcuts() {
+    registerShortcuts = () => {
         _.forEach(this.Shortcuts, shortcut => {
             _.isFunction(shortcut.watch)
                 ? this.watch(shortcut.watch, ok => this.handleShortcut(shortcut, ok))
@@ -49,8 +42,7 @@ export default class GlobalShortcuts {
         })
     }
 
-    @Bind
-    unregisterShortcuts() {
+    unregisterShortcuts = () => {
         _.each(this.Shortcuts, shortcut => {
             this.handleShortcut(shortcut, false)
         })
@@ -58,7 +50,5 @@ export default class GlobalShortcuts {
 
     dispose() {
         this.unregisterShortcuts()
-
-        super.dispose()
     }
 }

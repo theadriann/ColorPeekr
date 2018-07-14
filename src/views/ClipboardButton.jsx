@@ -1,53 +1,68 @@
+// React Deps
+import React from 'react'
+import { Attribute, Component, Observer, Observable } from 'app/decorators'
+
+// Utils
+import classNames from 'classnames'
 
 // Styles
 import ClipboardButtonLess from './ClipboardButton.less'
 
+@Observer
 @Component
-export default class ClipboardButton {
-
+export default class ClipboardButton extends React.Component {
+    @Observable hovered = false
     @Observable hoverMessage = 'click here to copy'
 
     @Attribute text = ''
     @Attribute namespace = ''
 
-    get isHovered() {
-        return this.scope.hovered === this.namespace
+    // ------------------------
+    // Event Handling Methods
+    // ------------------------
+
+    onMouseLeave = () => {
+        this.hovered = false
     }
 
-    copyToClipboard() {
+    onMouseEnter = () => {
+        this.hovered = true
+    }
+
+    onCopyClick = () => {
         this.scope.clipboard.writeText(this.text)
-        this.hoverMessage = 'copied!'
 
+        // Show copied message
+        this.hoverMessage = 'copied to clipboard!'
+
+        // Make sure there's no existing timeout
         clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => this.hoverMessage = 'click here to copy', 1000)
+
+        // Set timeout to reset message
+        this.timeout = setTimeout(() => (this.hoverMessage = 'click here to copy'), 1300)
     }
 
-    onMouseLeave() {
-        this.scope.hovered = false
-    }
-
-    onMouseEnter() {
-        this.scope.hovered = this.namespace
-    }
+    // ------------------------
+    // Rendering Methods
+    // ------------------------
 
     render() {
+        const containerClasses = classNames(this.namespace, ClipboardButtonLess.container)
+
         return (
             <div
-                class={ this.namespace }
-                class={ ClipboardButtonLess.container }
-                onClick={ () => this.copyToClipboard() }
-                onMouseLeave={ () => this.onMouseLeave() }
-                onMouseEnter={ () => this.onMouseEnter() }
-                { ...this.undeclaredAttributes()
-                }
+                className={containerClasses}
+                onClick={this.onCopyClick}
+                onMouseLeave={this.onMouseLeave}
+                onMouseEnter={this.onMouseEnter}
+                {...this.undeclaredAttributes()}
             >
-                <if condition={ this.isHovered }>
-                    { this.hoverMessage }
-                </if>
-                <else>
-                    { this.text }
-                </else>
+                {this.renderText()}
             </div>
         )
+    }
+
+    renderText() {
+        return this.hovered ? this.hoverMessage : this.text
     }
 }

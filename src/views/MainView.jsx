@@ -1,8 +1,10 @@
+// React Deps
+import React from 'react'
+import { Component } from 'app/decorators'
 
 // Utils
-import tinyjs from 'third_party/tiny'
-const robotjs  = __non_webpack_require__('robotjs')
-const {remote} = __non_webpack_require__('electron')
+const robotjs = __non_webpack_require__('robotjs')
+const { remote } = __non_webpack_require__('electron')
 
 // Controllers
 import Store from 'app/stores/Store'
@@ -15,18 +17,14 @@ import MainViewLess from './MainView.less'
 import SwatchView from './SwatchView'
 
 @Component
-export default class MainView {
+export default class MainView extends React.Component {
+    constructor(...args) {
+        super(...args)
 
-    constructor() {
-        super()
-
-        this.scope.store     = new Store(this.scope)
+        // Attach utils to scope
+        this.scope.store = new Store(this.scope)
         this.scope.shortcuts = new GlobalShortcuts(this.scope)
         this.scope.clipboard = remote.clipboard
-    }
-
-    get store() {
-        return this.scope.store
     }
 
     componentDidMount() {
@@ -36,7 +34,7 @@ export default class MainView {
             }
 
             const mousePos = robotjs.getMousePos()
-            const color    = robotjs.getPixelColor(mousePos.x, mousePos.y)
+            const color = robotjs.getPixelColor(mousePos.x, mousePos.y)
 
             this.store.setColor(`#${color}`)
         }, 10)
@@ -44,22 +42,24 @@ export default class MainView {
 
     componentWillUnmount() {
         clearInterval(this.checker)
-
-        super.detached()
     }
+
+    // ------------------------
+    // Shorthands
+    // ------------------------
+
+    get store() {
+        return this.scope.store
+    }
+
+    // ------------------------
+    // Rendering Methods
+    // ------------------------
 
     render() {
         return (
-            <div
-                class={ MainViewLess.container }
-                style-color={ this.textColor }
-            >
-                <SwatchView
-                    class={ MainViewLess.swatch }
-                    color={ this.store.tinyColor }
-                    bind:locked={ this.store.locked }
-                    bind:panelOpen={ this.store.panelOpen }
-                />
+            <div className={MainViewLess.container}>
+                <SwatchView className={MainViewLess.swatch} />
             </div>
         )
     }

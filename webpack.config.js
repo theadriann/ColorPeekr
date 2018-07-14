@@ -1,7 +1,6 @@
 
 const fs                 = require('fs')
 const HtmlWebpackPlugin  = require('html-webpack-plugin')
-const ReactTwistPlugin   = require('@twist/react-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const autoprefixer       = require('autoprefixer')
 const webpack            = require('webpack')
@@ -51,6 +50,39 @@ module.exports = {
     module: {
         rules: [
             {
+                test:    /\.(js|jsx)$/,
+                exclude: [
+                    /node_modules/
+                ],
+                use: {
+                    loader:  'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                require.resolve('babel-preset-env'),
+                                {
+                                    targets: {
+                                        browsers: {
+                                            browsers: [
+                                                'last 2 versions'
+                                            ],
+                                            localIdentName: 'color-peekr--[name]--[local]--[hash:base64:5]'
+                                        }
+                                    }
+                                }
+                            ],
+                            require.resolve('babel-preset-react')
+                        ],
+                        plugins: [
+                            'babel-plugin-transform-object-rest-spread',
+                            'babel-plugin-transform-function-bind',
+                            'babel-plugin-transform-decorators-legacy',
+                            'babel-plugin-transform-class-properties'
+                        ].map(require.resolve)
+                    }
+                }
+            },
+            {
                 test: /\.css$/g,
                 use:  [
                     'style-loader',
@@ -90,7 +122,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new ReactTwistPlugin(),
         new HtmlWebpackPlugin({
             title:  'ColorPeekr',
             chunks: [

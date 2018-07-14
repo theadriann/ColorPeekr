@@ -27,5 +27,5 @@
 
 ## Thanks
 
-- [React-Twist](https://github.com/adobe/react-twist) for providing an awesome library. 
+- [Mobx](https://mobx.js.org/) for a really good app state management library.
 
