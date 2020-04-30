@@ -2,10 +2,12 @@ const { remote } = __non_webpack_require__('electron')
 const { app, globalShortcut, BrowserWindow } = remote
 
 export default class GlobalShortcuts {
+    //
+
     Shortcuts = [{ command: 'CommandOrControl+Alt+1', action: 'toggleLock' }]
 
-    constructor(scope) {
-        this.scope = scope
+    constructor(rootStore) {
+        this.store = rootStore
 
         this.registerShortcuts()
 
@@ -16,10 +18,10 @@ export default class GlobalShortcuts {
         return remote.getCurrentWindow()
     }
 
-    action = actionName => {
+    action = (actionName) => {
         switch (actionName) {
             case 'toggleLock':
-                this.scope.store.locked = !this.scope.store.locked
+                this.store.picker.toggleLocked()
                 break
         }
     }
@@ -35,15 +37,13 @@ export default class GlobalShortcuts {
     }
 
     registerShortcuts = () => {
-        _.forEach(this.Shortcuts, shortcut => {
-            _.isFunction(shortcut.watch)
-                ? this.watch(shortcut.watch, ok => this.handleShortcut(shortcut, ok))
-                : this.handleShortcut(shortcut, true)
+        _.forEach(this.Shortcuts, (shortcut) => {
+            this.handleShortcut(shortcut, true)
         })
     }
 
     unregisterShortcuts = () => {
-        _.each(this.Shortcuts, shortcut => {
+        _.each(this.Shortcuts, (shortcut) => {
             this.handleShortcut(shortcut, false)
         })
     }

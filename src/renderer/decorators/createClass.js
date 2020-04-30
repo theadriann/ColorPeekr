@@ -1,4 +1,3 @@
-
 function defineProperties(target, props) {
     for (let i = 0, l = props.length; i < l; i++) {
         let descriptor = props[i]
@@ -6,7 +5,7 @@ function defineProperties(target, props) {
             continue
         }
 
-        descriptor.enumerable   = descriptor.enumerable || false
+        descriptor.enumerable = descriptor.enumerable || false
         descriptor.configurable = true
 
         if ('value' in descriptor) {
@@ -17,7 +16,7 @@ function defineProperties(target, props) {
     }
 }
 
-module.exports = function(Constructor, protoProps, staticProps) {
+export default function(Constructor, protoProps, staticProps) {
     if (protoProps) {
         defineProperties(Constructor.prototype, protoProps)
     }

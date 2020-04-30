@@ -1,43 +1,51 @@
-// Utils
-import { reaction } from 'mobx'
-import { Computed, Observable } from 'app/decorators'
-
-// Electron
+// electron
 const { remote } = __non_webpack_require__('electron')
 const appWindow = remote.BrowserWindow.getAllWindows()[0]
 
-// Utils
+// utils
 import namer from 'color-namer'
 import tinyjs from 'third_party/tiny'
 
-export default class AppStore {
+export default class PickerStore {
+    //
+
     @Observable locked = false
     @Observable panelOpen = false
     @Observable activeColor = '#333'
 
-    constructor(state, scope) {
-        this.scope = scope
+    constructor(rootStore) {
+        this.store = rootStore
 
-        reaction(() => this.panelOpen, this.onPanelOpenChange)
+        mobx.reaction(() => this.panelOpen, this.onPanelOpenChange)
     }
 
     // ------------------------
-    // Actions
+    // core methods
     // ------------------------
 
-    setColor = color => {
+    setColor = (color) => {
         requestAnimationFrame(() => (this.activeColor = color))
     }
 
-    setSize = size => {
-        appWindow.setSize(250, size, false)
+    setSize = (size) => {
+        appWindow.setSize(250, size, true)
+    }
+
+    @Action
+    toggleLocked() {
+        this.locked = !this.locked
+    }
+
+    @Action
+    togglePanelOpen() {
+        this.panelOpen = !this.panelOpen
     }
 
     // ------------------------
     // Event Handlers
     // ------------------------
 
-    onPanelOpenChange = open => {
+    onPanelOpenChange = (open) => {
         this.setSize(open ? 200 : 80)
     }
 
@@ -47,13 +55,13 @@ export default class AppStore {
 
     @Computed
     get tinyColor() {
-        return tinyjs(this.activeColor)
+        return tinycolor(this.activeColor)
     }
 
     @Computed
     get colorName() {
         const names = _.flatten(_.map(namer(this.tinyColor.getOriginalInput())))
-        const ordered = _.orderBy(names, name => parseFloat(name.distance))
+        const ordered = _.orderBy(names, (name) => parseFloat(name.distance))
 
         return _.startCase(ordered[0].name)
     }

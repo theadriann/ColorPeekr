@@ -1,36 +1,34 @@
-// React Deps
-import React from 'react'
-import { Attribute, Component, Observer, Observable } from 'app/decorators'
-
-// Utils
-import classNames from 'classnames'
-
 // Styles
-import ClipboardButtonLess from './ClipboardButton.less'
+import styles from './ClipboardButton.less'
 
 @Observer
 @Component
 export default class ClipboardButton extends React.Component {
-    @Observable hovered = false
-    @Observable hoverMessage = 'click here to copy'
+    //
 
     @Attribute text = ''
     @Attribute namespace = ''
+
+    @Observable hovered = false
+    @Observable hoverMessage = 'click here to copy'
 
     // ------------------------
     // Event Handling Methods
     // ------------------------
 
+    @Action
     onMouseLeave = () => {
         this.hovered = false
     }
 
+    @Action
     onMouseEnter = () => {
         this.hovered = true
     }
 
+    @Action
     onCopyClick = () => {
-        this.scope.clipboard.writeText(this.text)
+        store.clipboard.writeText(this.text)
 
         // Show copied message
         this.hoverMessage = 'copied to clipboard!'
@@ -47,7 +45,7 @@ export default class ClipboardButton extends React.Component {
     // ------------------------
 
     render() {
-        const containerClasses = classNames(this.namespace, ClipboardButtonLess.container)
+        const containerClasses = classnames(this.namespace, styles.container)
 
         return (
             <div
@@ -55,7 +53,7 @@ export default class ClipboardButton extends React.Component {
                 onClick={this.onCopyClick}
                 onMouseLeave={this.onMouseLeave}
                 onMouseEnter={this.onMouseEnter}
-                {...this.undeclaredAttributes()}
+                {...this.childAttributes()}
             >
                 {this.renderText()}
             </div>
