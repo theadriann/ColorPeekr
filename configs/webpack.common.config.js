@@ -1,56 +1,47 @@
-// utils
-// const webpack = require('webpack')
-
-// plugins
-// const WriteFilePlugin = require('write-file-webpack-plugin')
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
 module.exports = (env = {}) => {
     const commonConfig = {
         mode: process.env.NODE_ENV || 'development',
 
         module: {
             rules: [
-                // {
-                //     test: /\.node$/,
-                //     loader: 'node-loader',
-                // },
-
-                // {
-                //     test: /\.node$/,
-                //     use: [
-                //         {
-                //             loader: 'native-addon-loader',
-                //             options: {
-                //                 name: 'native_modules/[name]-[hash].[ext]', // default: '[name].[ext]'
-                //                 from: 'js', // default: '.'
-                //             },
-                //         },
-                //     ],
-                // },
-
                 {
-                    test: /\.(m?js|node)$/,
-                    parser: { amd: false },
-                    use: {
-                        loader: '@marshallofsound/webpack-asset-relocator-loader',
-                        options: {
-                            outputAssetBase: 'native_modules',
-                        },
+                    test: /\.(jsx|js)$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/,
+                    query: {
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: [
+                            'react-hot-loader/babel',
+                            [
+                                '@babel/plugin-proposal-decorators',
+                                {
+                                    legacy: true,
+                                },
+                            ],
+                            '@babel/plugin-syntax-dynamic-import',
+                            '@babel/plugin-transform-react-jsx-source',
+                            '@babel/plugin-proposal-function-sent',
+                            '@babel/plugin-proposal-export-namespace-from',
+                            '@babel/plugin-proposal-numeric-separator',
+                            '@babel/plugin-proposal-throw-expressions',
+                            [
+                                '@babel/plugin-proposal-class-properties',
+                                {
+                                    loose: true,
+                                },
+                            ],
+                            [
+                                '@babel/plugin-transform-runtime',
+                                {
+                                    helpers: true,
+                                },
+                            ],
+                        ],
                     },
                 },
             ],
         },
     }
-
-    // if (env.clean) {
-    //   const cleanPlugin = new CleanWebpackPlugin()
-    //   commonConfig.plugins.push(cleanPlugin)
-    // }
-
-    // if (env.analyzeBundle) {
-    //   commonConfig.plugins.push(new BundleAnalyzerPlugin())
-    // }
 
     return commonConfig
 }
