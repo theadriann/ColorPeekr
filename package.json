@@ -1,15 +1,14 @@
 {
   "name": "colorpeekr",
   "productName": "colorpeekr",
+  "description": "An open-source color picker built with web technologies",
   "version": "0.3.0",
   "main": ".webpack/main",
   "scripts": {
+    "make": "electron-forge make",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "rebuild": "npx electron-rebuild -v 8.2.4 -f",
-    "lint": "echo \"No linting configured\""
+    "publish": "electron-forge publish"
   },
   "keywords": [],
   "author": {
