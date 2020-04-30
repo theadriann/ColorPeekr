@@ -11,10 +11,23 @@ module.exports = (env = {}) => {
 
         module: {
             rules: [
-                {
-                    test: /\.node$/,
-                    loader: 'node-loader',
-                },
+                // {
+                //     test: /\.node$/,
+                //     loader: 'node-loader',
+                // },
+
+                // {
+                //     test: /\.node$/,
+                //     use: [
+                //         {
+                //             loader: 'native-addon-loader',
+                //             options: {
+                //                 name: 'native_modules/[name]-[hash].[ext]', // default: '[name].[ext]'
+                //                 from: 'js', // default: '.'
+                //             },
+                //         },
+                //     ],
+                // },
 
                 {
                     test: /\.(m?js|node)$/,
