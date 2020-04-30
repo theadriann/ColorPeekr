@@ -28,7 +28,7 @@ export default class PickerStore {
     }
 
     setSize = (size) => {
-        appWindow.setSize(250, size, true)
+        appWindow.setSize(250, size, false)
     }
 
     @Action
