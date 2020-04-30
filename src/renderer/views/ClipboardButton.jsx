@@ -1,4 +1,4 @@
-// Styles
+// styles
 import styles from './ClipboardButton.less'
 
 @Observer
@@ -13,7 +13,7 @@ export default class ClipboardButton extends React.Component {
     @Observable hoverMessage = 'click here to copy'
 
     // ------------------------
-    // Event Handling Methods
+    // event handling methods
     // ------------------------
 
     @Action
@@ -41,7 +41,7 @@ export default class ClipboardButton extends React.Component {
     }
 
     // ------------------------
-    // Rendering Methods
+    // rendering methods
     // ------------------------
 
     render() {

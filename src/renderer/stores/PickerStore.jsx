@@ -9,9 +9,9 @@ import tinyjs from 'third_party/tiny'
 export default class PickerStore {
     //
 
-    @Observable locked = false
-    @Observable panelOpen = false
-    @Observable activeColor = '#333'
+    @Observable.ref locked = false
+    @Observable.ref panelOpen = false
+    @Observable.ref activeColor = '#333'
 
     constructor(rootStore) {
         this.store = rootStore
@@ -23,11 +23,13 @@ export default class PickerStore {
     // core methods
     // ------------------------
 
-    setColor = (color) => {
-        requestAnimationFrame(() => (this.activeColor = color))
-    }
+    @Action
+    _setColor = (color) => (this.activeColor = color)
 
-    setSize = (size) => {
+    setColor = (color) => requestAnimationFrame(() => this._setColor(color))
+
+    @Action
+    setSize(size) {
         appWindow.setSize(250, size, false)
     }
 
@@ -42,7 +44,7 @@ export default class PickerStore {
     }
 
     // ------------------------
-    // Event Handlers
+    // event handling methods
     // ------------------------
 
     onPanelOpenChange = (open) => {
@@ -50,7 +52,7 @@ export default class PickerStore {
     }
 
     // ------------------------
-    // Computed Data
+    // computed data
     // ------------------------
 
     @Computed

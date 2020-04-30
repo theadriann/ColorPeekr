@@ -1,3 +1,4 @@
+// utils
 const { remote } = __non_webpack_require__('electron')
 const { app, globalShortcut, BrowserWindow } = remote
 
