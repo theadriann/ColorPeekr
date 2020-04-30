@@ -1,6 +1,5 @@
-node_modules
-build
-testing
-npm-debug.log
+.webpack
 .DS_Store
 out
+npm-debug.log
+node_modules

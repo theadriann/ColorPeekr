@@ -1,7 +1,7 @@
 <p align="center">
   <img src="resources/colorpeekr.png" height="60" />
   <h3 align="center">ColorPeekr</h3>
-  <p align="center">An open-source color picker built with web technology<p>
+  <p align="center">An open-source color picker built with web technologies<p>
 </p>
 
 ## Get ColorPeekr
@@ -23,9 +23,3 @@
 ## Shortcuts
 
 -  *(Cmd/Ctrl)-Alt-1*: Locks/Unlocks peeked color.
-
-
-## Thanks
-
-- [Mobx](https://mobx.js.org/) for a really good app state management library.
-

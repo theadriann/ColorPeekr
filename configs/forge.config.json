@@ -1,0 +1,44 @@
+{
+  "packagerConfig": {
+    "name": "ColorPeekr",
+    "icon": "./resources/colorpeekr"
+  },
+  "makers": [
+    {
+      "name": "@electron-forge/maker-squirrel",
+      "config": {
+        "name": "colorpeekr"
+      }
+    },
+    {
+      "name": "@electron-forge/maker-zip",
+      "platforms": ["darwin", "win32"]
+    },
+    {
+      "name": "@electron-forge/maker-deb",
+      "config": {}
+    },
+    {
+      "name": "@electron-forge/maker-rpm",
+      "config": {}
+    }
+  ],
+  "plugins": [
+    [
+      "@electron-forge/plugin-webpack",
+      {
+        "mainConfig": "./configs/webpack.main.config.js",
+        "renderer": {
+          "config": "./configs/webpack.renderer.config.js",
+          "entryPoints": [
+            {
+              "html": "./src/index.html",
+              "js": "./src/renderer/index.js",
+              "name": "main_window"
+            }
+          ]
+        }
+      }
+    ]
+  ]
+}

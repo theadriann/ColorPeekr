@@ -1,4 +1,4 @@
-module.exports = function(classFn, propName) {
+export default function(classFn, propName) {
     if (!classFn || classFn.hasOwnProperty(propName)) {
         return
     }
