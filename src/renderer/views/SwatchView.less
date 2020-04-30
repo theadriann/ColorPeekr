@@ -37,22 +37,18 @@
 
         -webkit-app-region: no-drag;
 
-        i {
-            width: 13px;
+        :local(.icon) {
             margin-right: 8px;
+        }
+    }
 
-            cursor: pointer;
-            text-align: center;
+    :local(.icon) {
+        cursor: pointer;
 
-            opacity: .2;
+        opacity: 1;
 
-            &.fa-lock {
-                opacity: 1;
-            }
-
-            &.fa-unlock {
-                margin: 0 5px 0 3px;
-            }
+        &.fa-unlock {
+            opacity: .5;
         }
     }
 

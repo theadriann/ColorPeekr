@@ -4,6 +4,9 @@ import ClipboardButton from './ClipboardButton'
 // styles
 import styles from './SwatchView.less'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp, faChevronDown, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
+
 @Observer
 export default class SwatchView extends React.Component {
     //
@@ -53,15 +56,16 @@ export default class SwatchView extends React.Component {
     }
 
     renderTopBar() {
-        const iconClasses = classnames('fa', {
-            'fa-lock': this.picker.locked,
-            'fa-unlock': !this.picker.locked,
-        })
+        const icon = this.picker.locked ? faLock : faUnlock
 
         return (
             <div className="top-bar">
                 <div className="title">
-                    <i aria-hidden="true" className={iconClasses} onClick={this.onLockClick} />
+                    <FontAwesomeIcon
+                        icon={icon}
+                        className={styles.icon}
+                        onClick={this.onLockClick}
+                    />
                     {this.picker.colorName}
                 </div>
                 <ClipboardButton text={`#${this.color.toHex()}`} namespace="hex" />
@@ -78,15 +82,12 @@ export default class SwatchView extends React.Component {
     }
 
     renderBottomBar() {
-        const iconClasses = classnames('fa', {
-            'fa-chevron-down': !this.picker.panelOpen,
-            'fa-chevron-up': this.picker.panelOpen,
-        })
+        const icon = this.picker.panelOpen ? faChevronUp : faChevronDown
 
         return (
             <div className="bottom-bar">
                 <div className="panel-controller" onClick={this.onPanelToggleClick}>
-                    <i className={iconClasses} aria-hidden="true" />
+                    <FontAwesomeIcon icon={icon} />
                 </div>
                 <ClipboardButton text={this.color.toRgbString()} namespace="rgb" />
             </div>
