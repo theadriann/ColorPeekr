@@ -44,7 +44,7 @@
     "classnames": "^2.2.6",
     "color-namer": "^1.4.0",
     "css-loader": "^3.5.3",
-    "electron": "8.2.4",
+    "electron": "8.5.2",
     "electron-rebuild": "^1.10.1",
     "file-loader": "^6.0.0",
     "less": "^3.11.1",
