@@ -13,10 +13,19 @@ export default class PickerStore {
     @Observable.ref panelOpen = false
     @Observable.ref activeColor = '#333'
 
+    @Observable.shallow savedColors = new Set()
+
     constructor(rootStore) {
         this.store = rootStore
 
+        this.fetchDB()
+
         mobx.reaction(() => this.panelOpen, this.onPanelOpenChange)
+    }
+
+    @Computed
+    get allSavedColors() {
+        return [...this.savedColors.values()]
     }
 
     // ------------------------
@@ -31,6 +40,46 @@ export default class PickerStore {
     @Action
     setSize(size) {
         appWindow.setSize(250, size, false)
+    }
+
+    @Action
+    saveColor = () => {
+        this.savedColors.add(this.activeColor)
+        this.updateDB()
+    }
+
+    @Action
+    removeColor = (color) => {
+        this.savedColors.delete(color)
+        this.updateDB()
+    }
+
+    @Action
+    fetchDB() {
+        this.savedColors.clear()
+
+        try {
+            const savedColors = JSON.parse(localStorage.getItem('savedColors'))
+
+            for (let color of savedColors) {
+                this.savedColors.add(color)
+            }
+        } catch (e) {
+            console.warn(`couldn't find any saved colors`)
+        }
+    }
+
+    updateDB() {
+        try {
+            window.localStorage.setItem('savedColors', JSON.stringify(this.allSavedColors))
+        } catch (e) {
+            console.warn(`couldn't persist-save colors`)
+        }
+    }
+
+    @Action
+    lock() {
+        this.locked = true
     }
 
     @Action

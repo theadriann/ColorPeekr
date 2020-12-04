@@ -6,6 +6,7 @@ import styles from './SwatchView.less'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
+import ColorTile from './ColorTile'
 
 @Observer
 export default class SwatchView extends React.Component {
@@ -78,7 +79,13 @@ export default class SwatchView extends React.Component {
             return null
         }
 
-        return <div className="content" />
+        return (
+            <div className="content">
+                {this.picker.allSavedColors.map((color) => (
+                    <ColorTile key={color} color={color} />
+                ))}
+            </div>
+        )
     }
 
     renderBottomBar() {

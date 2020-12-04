@@ -5,7 +5,10 @@ const { app, globalShortcut, BrowserWindow } = remote
 export default class GlobalShortcuts {
     //
 
-    Shortcuts = [{ command: 'CommandOrControl+Alt+1', action: 'toggleLock' }]
+    Shortcuts = [
+        { command: 'CommandOrControl+Alt+1', action: 'toggleLock' },
+        { command: 'CommandOrControl+Alt+2', action: 'saveColor' },
+    ]
 
     constructor(rootStore) {
         this.store = rootStore
@@ -23,6 +26,10 @@ export default class GlobalShortcuts {
         switch (actionName) {
             case 'toggleLock':
                 this.store.picker.toggleLocked()
+                break
+
+            case 'saveColor':
+                this.store.picker.saveColor()
                 break
         }
     }
