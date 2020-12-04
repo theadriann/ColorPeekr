@@ -18,8 +18,11 @@
 ## Features
  - Ability to lock the active color.
  - Ability to copy the color in either rgb/hex format.
+ - Ability to save the current color into a list
+ - Ability to delete a saved color by Alt+Click on the color tile.
 
 
 ## Shortcuts
 
 -  *(Cmd/Ctrl)-Alt-1*: Locks/Unlocks peeked color.
+-  *(Cmd/Ctrl)-Alt-2*: Saves the current color into a colors list (viewable in full-mode).
