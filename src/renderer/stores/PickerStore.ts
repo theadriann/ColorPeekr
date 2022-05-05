@@ -1,6 +1,6 @@
 // electron
 const remote = require("@electron/remote");
-const appWindow = remote && remote.BrowserWindow.getAllWindows()[0];
+const appWindow = remote.BrowserWindow.getAllWindows()[0];
 
 // state
 import { ColorPeekrStore } from "./ColorPeekrStore";
@@ -27,9 +27,9 @@ export default class PickerStore {
 
         this.fetchDB();
 
-        reaction(() => this.panelOpen, this.onPanelOpenChange);
-
         makeAutoObservable(this);
+
+        reaction(() => this.panelOpen, this.onPanelOpenChange);
     }
 
     get allSavedColors() {
@@ -46,7 +46,7 @@ export default class PickerStore {
         requestAnimationFrame(() => this._setColor(color));
 
     setSize(size: any) {
-        appWindow && appWindow.setSize(250, size, false);
+        appWindow.setSize(250, Number(size), false);
     }
 
     saveColor = () => {

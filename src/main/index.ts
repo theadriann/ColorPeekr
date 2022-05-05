@@ -30,7 +30,7 @@ const createWindow = () => {
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   require("@electron/remote/main").enable(mainWindow.webContents);
 
   ipcMain.on("get-mouse-pixel", (event: any, arg: any) => {
