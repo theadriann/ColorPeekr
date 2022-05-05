@@ -1,5 +1,4 @@
-
-:local(.container) {
+.container {
     position: relative;
 
     display: flex;
@@ -10,7 +9,7 @@
     height: 100%;
     padding: 8px;
 
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 
     border-radius: 4px;
 
@@ -45,18 +44,18 @@
 
         -webkit-app-region: no-drag;
 
-        :local(.icon) {
+        .icon {
             margin-right: 8px;
         }
     }
 
-    :local(.icon) {
+    .icon {
         cursor: pointer;
 
         opacity: 1;
 
-        &.fa-unlock {
-            opacity: .5;
+        &:global(.fa-unlock) {
+            opacity: 0.5;
         }
     }
 
@@ -68,7 +67,7 @@
 
         cursor: pointer;
 
-        opacity: .8;
+        opacity: 0.8;
 
         -webkit-app-region: no-drag;
 

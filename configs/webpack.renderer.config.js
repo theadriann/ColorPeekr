@@ -1,35 +1,31 @@
 // utils
-const merge = require('webpack-merge')
-const webpack = require('webpack')
+const { merge } = require("webpack-merge");
+const webpack = require("webpack");
 
 // configs
-const paths = require('./paths.config')
-const commonConfigFn = require('./webpack.common.config')
-
-// const rules = require('./webpack.rules');
-
-// rules.push({
-//   test: /\.css$/,
-//   use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-// });
-
-// module.exports = {
-//   // Put your normal webpack config below here
-//   module: {
-//     rules,
-//   },
-// };
+const paths = require("./paths.config");
+const commonConfigFn = require("./webpack.common.config");
 
 const configFn = (env = {}) => {
     const config = {
         resolve: {
-            extensions: ['.js', '.jsx', '.json'],
+            extensions: [
+                ".js",
+                ".ts",
+                ".jsx",
+                ".tsx",
+                ".css",
+                ".scss",
+                "module.scss",
+            ],
             alias: {
                 src: paths.src,
                 renderer: paths.renderer,
                 third_party: paths.third_party,
             },
         },
+
+        target: "electron-renderer",
 
         node: {
             __dirname: false,
@@ -39,62 +35,47 @@ const configFn = (env = {}) => {
         module: {
             rules: [
                 {
-                    test: /\.less|css$/,
+                    test: /\.s[ac]ss$/i,
                     use: [
                         {
-                            loader: 'style-loader',
+                            loader: "style-loader",
                         },
                         {
-                            loader: 'css-loader',
+                            loader: "css-loader",
+                            // options: {
+                            //     url: true,
+                            //     import: true,
+                            //     importLoaders: 1,
+                            //     modules: {
+                            //         mode: "global",
+                            //         localIdentName:
+                            //             "[name]__[local]--[hash:base64:5]",
+                            //     },
+                            // },
+                        },
+                        {
+                            loader: "sass-loader",
                             options: {
-                                url: true,
-                                import: true,
-                                importLoaders: 1,
-                                modules: {
-                                    mode: 'global',
-                                    localIdentName: '[name]__[local]--[hash:base64:5]',
-                                },
+                                implementation: require("sass"),
                             },
-                        },
-                        {
-                            loader: 'less-loader',
                         },
                     ],
                 },
 
                 {
                     test: /\.(png|jpg|jpeg|gif|svg|eot|woff|woff2|ttf|otf|mp4|mp3|cur)$/,
-                    loader: 'file-loader?name=assets/[name]-[hash:base64:5].[ext]',
+                    loader: "file-loader",
+                    options: {
+                        name: "assets/[name]-[hash:base64:5].[ext]",
+                    },
                 },
             ],
         },
 
-        plugins: [
-            new webpack.ProvidePlugin({
-                // utils
-                _: 'lodash',
-                classnames: 'classnames',
+        plugins: [],
+    };
 
-                // React
-                React: 'react',
-                ReactDOM: 'react-dom',
+    return merge(commonConfigFn(env), config);
+};
 
-                // mobx
-                mobx: 'mobx',
-                mobxReact: 'mobx-react',
-
-                // decorators
-                Observer: ['mobx-react', 'observer'],
-                Observable: ['mobx', 'observable'],
-                Action: ['mobx', 'action'],
-                Computed: ['mobx', 'computed'],
-                Component: ['renderer/decorators', 'Component'],
-                Attribute: ['renderer/decorators', 'Attribute'],
-            }),
-        ],
-    }
-
-    return merge.smart(commonConfigFn(env), config)
-}
-
-module.exports = configFn()
+module.exports = configFn();

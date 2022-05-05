@@ -1,12 +1,14 @@
 // utils
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 // configs
 const commonConfigFn = require('./webpack.common.config')
 
 const configFn = (env = {}) => {
     const config = {
-        entry: './src/main/index.js',
+        entry: './src/main/index.ts',
+
+        target: 'electron-main',
 
         module: {
             rules: [
@@ -29,10 +31,15 @@ const configFn = (env = {}) => {
                 // },
 
                 {
+                    test: /native_modules\/.+\.node$/,
+                    use: 'node-loader',
+                },
+
+                {
                     test: /\.(m?js|node)$/,
                     parser: { amd: false },
                     use: {
-                        loader: '@marshallofsound/webpack-asset-relocator-loader',
+                        loader: '@vercel/webpack-asset-relocator-loader',
                         options: {
                             outputAssetBase: 'native_modules',
                         },
@@ -42,7 +49,7 @@ const configFn = (env = {}) => {
         },
     }
 
-    return merge.smart(commonConfigFn(env), config)
+    return merge(commonConfigFn(env), config)
 }
 
 module.exports = configFn()

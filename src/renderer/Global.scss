@@ -1,12 +1,11 @@
-
-@font-path: "~renderer/assets/fonts";
+$font-path: "~renderer/assets/fonts";
 
 @font-face {
     font-family: "Open Sans";
     font-weight: 400;
     font-style: normal;
 
-    src: url("@{font-path}/OpenSans-Regular.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -14,7 +13,7 @@
     font-weight: 400;
     font-style: italic;
 
-    src: url("@{font-path}/OpenSans-Italic.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-Italic.ttf") format("truetype");
 }
 
 @font-face {
@@ -22,7 +21,7 @@
     font-weight: 200;
     font-style: normal;
 
-    src: url("@{font-path}/OpenSans-Light.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-Light.ttf") format("truetype");
 }
 
 @font-face {
@@ -30,7 +29,7 @@
     font-weight: 200;
     font-style: italic;
 
-    src: url("@{font-path}/OpenSans-LightItalic.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-LightItalic.ttf") format("truetype");
 }
 
 @font-face {
@@ -38,7 +37,7 @@
     font-weight: 600;
     font-style: normal;
 
-    src: url("@{font-path}/OpenSans-Bold.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-Bold.ttf") format("truetype");
 }
 
 @font-face {
@@ -46,7 +45,7 @@
     font-weight: 600;
     font-style: italic;
 
-    src: url("@{font-path}/OpenSans-BoldItalic.ttf") format("truetype");
+    src: url($font-path + "/OpenSans-BoldItalic.ttf") format("truetype");
 }
 
 html {
