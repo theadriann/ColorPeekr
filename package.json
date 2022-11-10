@@ -39,7 +39,7 @@
         "classnames": "^2.3.1",
         "color-namer": "^1.4.0",
         "css-loader": "^6.7.1",
-        "electron": "^18.2.0",
+        "electron": "^18.3.7",
         "file-loader": "^6.2.0",
         "fork-ts-checker-webpack-plugin": "^7.2.11",
         "less-loader": "^10.2.0",
